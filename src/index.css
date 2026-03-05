@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@700&display=swap');
+
+:root {
+  font-family: 'Ubuntu Mono', monospace;
+  font-weight: 700;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #0a0a0a;
+  color: #e0e0e0;
+}
