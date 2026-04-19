@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const Button = ({ children, onClick, variant = 'primary', className = '', ...props }) => {
-  const baseStyles = 'px-4 py-2 font-bold transition-colors duration-200';
+  const baseStyles = 'px-3 py-1.5 sm:px-4 sm:py-2 font-bold transition-colors duration-200 text-xs sm:text-sm';
   const variants = {
     primary: 'bg-[#cd7f32] text-[#0a0a0a] hover:bg-[#b86d2a]',
     secondary: 'bg-[#1a1a1a] text-[#cd7f32] hover:bg-[#2a2a2a]',

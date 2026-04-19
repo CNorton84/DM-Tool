@@ -44,30 +44,30 @@ export const RollResult = ({ result, onSave, onRollAgain }) => {
   if (diceDisplay.length > 0) diceDisplay.pop(); // Remove trailing +
 
   return (
-    <div className="bg-[#0a0a0a] border border-[#cd7f32] border-opacity-50 rounded-lg p-2 mb-2 transition-all duration-200 hover:bg-[#1a1a1a] origin-center">
-      <div className="flex gap-2">
-        <div className="flex items-center justify-center" style={{ minWidth: '3.6rem', width: 'fit-content' }}>
-          <span style={getTotalColor()} className="text-[36px] font-bold whitespace-nowrap overflow-hidden" title={total.toString()}>{total}</span>
+    <div className="bg-[#0a0a0a] border border-[#cd7f32] border-opacity-50 rounded-lg p-1 sm:p-2 mb-1 sm:mb-2 transition-all duration-200 hover:bg-[#1a1a1a] origin-center">
+      <div className="flex gap-1 sm:gap-2">
+        <div className="flex items-center justify-center" style={{ minWidth: '2.4rem', width: 'fit-content' }}>
+          <span style={getTotalColor()} className="text-[24px] sm:text-[36px] font-bold whitespace-nowrap overflow-hidden" title={total.toString()}>{total}</span>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-0.5 sm:gap-1">
           <button
             onClick={() => onRollAgain && onRollAgain(result.command || result.formula)}
-            className="w-5 h-5 rounded border border-[#666] text-[#666] hover:bg-[#cd7f32] hover:text-[#0a0a0a] hover:border-[#cd7f32] transition-all duration-200 font-mono text-sm flex items-center justify-center"
+            className="w-4 h-4 sm:w-5 sm:h-5 rounded border border-[#666] text-[#666] hover:bg-[#cd7f32] hover:text-[#0a0a0a] hover:border-[#cd7f32] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
           >
             ⟳
           </button>
           <button
             onClick={() => onSave && onSave(result)}
-            className="w-5 h-5 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-sm flex items-center justify-center"
+            className="w-4 h-4 sm:w-5 sm:h-5 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
           >
             ★
           </button>
         </div>
-        <div className="flex flex-col justify-center gap-1 flex-1 min-w-0">
-          <span className="text-[#cd7f32] font-bold text-sm whitespace-nowrap overflow-hidden" title={result.command || result.formula}>
+        <div className="flex flex-col justify-center gap-0.5 sm:gap-1 flex-1 min-w-0">
+          <span className="text-[#cd7f32] font-bold text-xs sm:text-sm whitespace-nowrap overflow-hidden" title={result.command || result.formula}>
             {result.command || result.formula}
           </span>
-          <div className="text-[#666] text-sm flex items-center gap-1 whitespace-nowrap overflow-hidden" title={`${diceDisplay}${modifier !== 0 ? modifierDisplay : ''}`}>
+          <div className="text-[#666] text-xs sm:text-sm flex items-center gap-0.5 sm:gap-1 whitespace-nowrap overflow-hidden" title={`${diceDisplay}${modifier !== 0 ? modifierDisplay : ''}`}>
             {diceDisplay}
             {modifier !== 0 && <span>{modifierDisplay}</span>}
           </div>

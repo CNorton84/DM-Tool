@@ -14,7 +14,7 @@ export const CombatantList = ({ combatants, onUpdate, onRemove, onDuplicate, onA
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
       {combatants.map((combatant) => (
         <CombatantCard
           key={combatant.id}

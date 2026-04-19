@@ -95,7 +95,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
   };
 
   return (
-    <div className={`bg-[#1a1a1a] border rounded-lg p-2 mb-0 transition-all duration-200 overflow-hidden ${
+    <div className={`bg-[#1a1a1a] border rounded-lg p-1.5 sm:p-2 mb-0 transition-all duration-200 overflow-hidden ${
       combatant.currentHp <= 0
         ? 'border-red-800 opacity-70'
         : combatant.currentHp <= combatant.totalHp * 0.25
@@ -103,7 +103,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
         : 'border-[#cd7f32] border-opacity-50'
     }`}>
       {/* Header: Name and Remove Button */}
-      <div className="flex items-center justify-between mb-2 min-w-0">
+      <div className="flex items-center justify-between mb-1.5 sm:mb-2 min-w-0">
         {isEditingName ? (
           <input
             type="text"
@@ -111,19 +111,19 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
             onChange={(e) => setNameValue(e.target.value)}
             onBlur={handleNameBlur}
             onKeyDown={handleNameKeyDown}
-            className="flex-1 bg-[#0a0a0a] border border-[#cd7f32] rounded px-2 py-1 text-sm text-[#e0e0e0] focus:outline-none focus:border-opacity-100"
+            className="flex-1 bg-[#0a0a0a] border border-[#cd7f32] rounded px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs sm:text-sm text-[#e0e0e0] focus:outline-none focus:border-opacity-100"
             autoFocus
           />
         ) : (
           <button
             onClick={() => setIsEditingName(true)}
-            className="flex-1 text-left text-base font-bold text-[#e0e0e0] hover:text-[#cd7f32] truncate"
+            className="flex-1 text-left text-sm sm:text-base font-bold text-[#e0e0e0] hover:text-[#cd7f32] truncate"
             title="Click to edit name"
           >
             {combatant.name}
           </button>
         )}
-        <div className="flex items-center gap-1 ml-2">
+        <div className="flex items-center gap-0.5 sm:gap-1 ml-1 sm:ml-2">
           <IconButton
             icon="📋"
             onClick={() => onDuplicate(combatant.id)}
@@ -141,11 +141,11 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
       </div>
 
       {/* HP Display */}
-      <div className="mb-2 overflow-hidden">
-        <div className="flex items-center gap-2 mb-1">
+      <div className="mb-1.5 sm:mb-2 overflow-hidden">
+        <div className="flex items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1">
           {/* Current HP */}
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-[#888]">Current:</span>
+          <div className="flex items-center gap-0.5 sm:gap-1">
+            <span className="text-[10px] sm:text-xs text-[#888]">Current:</span>
             {isEditingCurrentHp ? (
               <input
                 type="number"
@@ -153,14 +153,14 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
                 onChange={(e) => setCurrentHpValue(e.target.value)}
                 onBlur={handleCurrentHpBlur}
                 onKeyDown={handleCurrentHpKeyDown}
-                className="w-16 bg-[#0a0a0a] border border-[#cd7f32] rounded px-2 py-1 text-sm text-[#e0e0e0] focus:outline-none"
+                className="w-12 sm:w-16 bg-[#0a0a0a] border border-[#cd7f32] rounded px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs sm:text-sm text-[#e0e0e0] focus:outline-none"
                 autoFocus
                 min="0"
               />
             ) : (
               <button
                 onClick={() => setIsEditingCurrentHp(true)}
-                className={`text-sm font-bold ${
+                className={`text-xs sm:text-sm font-bold ${
                   combatant.currentHp <= 0
                     ? 'text-red-500'
                     : combatant.currentHp <= combatant.totalHp * 0.25
@@ -174,11 +174,11 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
             )}
           </div>
 
-          <span className="text-[#888]">/</span>
+          <span className="text-[#888] text-xs">/</span>
 
           {/* Max HP */}
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-[#888]">Max:</span>
+          <div className="flex items-center gap-0.5 sm:gap-1">
+            <span className="text-[10px] sm:text-xs text-[#888]">Max:</span>
             {isEditingMaxHp ? (
               <input
                 type="number"
@@ -186,14 +186,14 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
                 onChange={(e) => setMaxHpValue(e.target.value)}
                 onBlur={handleMaxHpBlur}
                 onKeyDown={handleMaxHpKeyDown}
-                className="w-16 bg-[#0a0a0a] border border-[#cd7f32] rounded px-2 py-1 text-sm text-[#e0e0e0] focus:outline-none"
+                className="w-12 sm:w-16 bg-[#0a0a0a] border border-[#cd7f32] rounded px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs sm:text-sm text-[#e0e0e0] focus:outline-none"
                 autoFocus
                 min="0"
               />
             ) : (
               <button
                 onClick={() => setIsEditingMaxHp(true)}
-                className="text-sm text-[#e0e0e0] hover:text-[#cd7f32]"
+                className="text-xs sm:text-sm text-[#e0e0e0] hover:text-[#cd7f32]"
                 title="Click to edit max HP"
               >
                 {combatant.totalHp}
@@ -203,7 +203,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
         </div>
 
         {/* HP Bar */}
-        <div className="w-full bg-[#0a0a0a] rounded-full h-2 overflow-hidden">
+        <div className="w-full bg-[#0a0a0a] rounded-full h-1.5 sm:h-2 overflow-hidden">
           <div
             className={`h-full ${getHpColor()} transition-all duration-300`}
             style={{ width: `${hpPercentage}%` }}
@@ -212,15 +212,15 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
       </div>
 
       {/* Damage Input */}
-      <div className="flex items-center gap-1 mb-2 flex-shrink-0">
-        <span className="text-xs text-[#888] whitespace-nowrap">DM:</span>
+      <div className="flex items-center gap-0.5 sm:gap-1 mb-1.5 sm:mb-2 flex-shrink-0">
+        <span className="text-[10px] sm:text-xs text-[#888] whitespace-nowrap">DM:</span>
         <input
           type="number"
           value={damageValue}
           onChange={(e) => setDamageValue(e.target.value)}
           onKeyDown={handleDamageKeyDown}
           placeholder="5"
-          className="flex-1 min-w-0 bg-[#0a0a0a] border border-[#333] rounded px-2 py-1 text-sm text-[#e0e0e0] focus:outline-none focus:border-[#cd7f32]"
+          className="flex-1 min-w-0 bg-[#0a0a0a] border border-[#333] rounded px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs sm:text-sm text-[#e0e0e0] focus:outline-none focus:border-[#cd7f32]"
         />
         <Button
           onClick={handleDamageApply}
@@ -236,7 +236,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
         value={combatant.description || ''}
         onInput={handleDescriptionInput}
         placeholder="Add notes..."
-        className="w-full min-w-0 bg-[#0a0a0a] border border-[#333] rounded px-2 py-1 text-sm text-[#e0e0e0] focus:outline-none focus:border-[#cd7f32] resize-none overflow-hidden"
+        className="w-full min-w-0 bg-[#0a0a0a] border border-[#333] rounded px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs sm:text-sm text-[#e0e0e0] focus:outline-none focus:border-[#cd7f32] resize-none overflow-hidden"
         ref={(textarea) => {
           if (textarea) {
             textarea.style.height = 'auto';
