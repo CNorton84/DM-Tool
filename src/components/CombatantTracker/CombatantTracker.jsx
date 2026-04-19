@@ -1,11 +1,50 @@
+import { useDiceContext } from '../../context/DiceContext';
+import { CombatantList } from './CombatantList';
+import { Button } from '../UI/Button';
+
 export const CombatantTracker = () => {
+  const { combatants, addCombatant, removeCombatant, updateCombatant, duplicateCombatant, applyDamage } = useDiceContext();
+
+  const handleAddCombatant = () => {
+    addCombatant({});
+  };
+
+  const handleUpdate = (id, updates) => {
+    updateCombatant(id, updates);
+  };
+
+  const handleRemove = (id) => {
+    removeCombatant(id);
+  };
+
+  const handleDuplicate = (id) => {
+    duplicateCombatant(id);
+  };
+
+  const handleApplyDamage = (id, amount) => {
+    applyDamage(id, amount);
+  };
+
   return (
-    <div className="flex items-center justify-center h-full text-[#888]">
-      <div className="text-center">
-        <p className="text-lg font-bold mb-2">Combatant Tracker</p>
-        <p className="text-sm">Phase 2 feature</p>
-        <p className="text-xs mt-4 text-[#cd7f32]">HP tracking coming soon...</p>
-      </div>
+    <div className="space-y-2">
+      {/* Add Combatant Button */}
+      <Button
+        onClick={handleAddCombatant}
+        variant="primary"
+        size="sm"
+        className="w-full"
+      >
+        + Add Combatant
+      </Button>
+
+      {/* Combatant List */}
+      <CombatantList
+        combatants={combatants}
+        onUpdate={handleUpdate}
+        onRemove={handleRemove}
+        onDuplicate={handleDuplicate}
+        onApplyDamage={handleApplyDamage}
+      />
     </div>
   );
 };

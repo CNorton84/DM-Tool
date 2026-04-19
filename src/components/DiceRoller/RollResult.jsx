@@ -1,26 +1,39 @@
 import PropTypes from 'prop-types';
+import { getDieColor } from '../../utils/colorCalculator';
 
 export const RollResult = ({ result, onSave, onRollAgain }) => {
   const { total, dice, minPossible, maxPossible } = result;
 
-  const getDieColor = (value, sides) => {
-    if (value === 1) return 'text-[#ef4444]';
-    if (value === sides) return 'text-[#22c55e]';
-    return 'text-[#e0e0e0]';
-  };
-
   const getTotalColor = () => {
-    const range = maxPossible - minPossible;
-    const position = range > 0 ? (total - minPossible) / range : 0.5;
-    const r = Math.round(255 * (1 - position));
-    const g = Math.round(255 * position);
-    return { color: `rgb(${r}, ${g}, 0)` };
+    const avg = Math.round((minPossible + maxPossible) / 2);
+    
+    let color;
+    if (total <= minPossible) {
+      color = { color: '#ff0000' };
+    } else if (total >= maxPossible) {
+      color = { color: '#00ff00' };
+    } else if (total === avg) {
+      color = { color: '#808080' };
+    } else if (total < avg) {
+      const t = (total - minPossible) / (avg - minPossible);
+      const r = Math.round(255 + (128 - 255) * t);
+      const g = Math.round(0 + (128 - 0) * t);
+      const b = Math.round(0 + (128 - 0) * t);
+      color = { color: `rgb(${r}, ${g}, ${b})` };
+    } else {
+      const t = (total - avg) / (maxPossible - avg);
+      const r = Math.round(128 + (0 - 128) * t);
+      const g = Math.round(128 + (255 - 128) * t);
+      const b = Math.round(128 + (0 - 128) * t);
+      color = { color: `rgb(${r}, ${g}, ${b})` };
+    }
+    return color;
   };
 
   const modifier = result.parts?.reduce((sum, p) => p.type === 'modifier' ? sum + p.value : sum, 0) || 0;
   const modifierDisplay = modifier !== 0 ? ` ${modifier > 0 ? '+ ' : '- '}${Math.abs(modifier)}` : '';
   const diceDisplay = dice.map((d, i) => (
-    <span key={i} style={{ color: `rgb(${255 * (1 - (d.value - 1) / (d.sides - 1))}, ${255 * (d.value - 1) / (d.sides - 1)}, 0)` }}>
+    <span key={i} style={{ color: getDieColor(d.value, d.sides) }}>
       {d.sign === -1 ? '- ' : ''}{d.value}
     </span>
   )).reduce((acc, d) => [

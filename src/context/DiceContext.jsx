@@ -93,14 +93,92 @@ export const DiceProvider = ({ children }) => {
     setRollHistory([]);
   }, []);
 
+  // Combatant state - loaded from localStorage
+  const [combatants, setCombatants] = useState(() => {
+    const saved = localStorage.getItem('dm-app-combatants');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const addCombatant = useCallback((combatantData) => {
+    setCombatants((prev) => {
+      const newCombatant = {
+        id: `combatant-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        name: combatantData.name || 'Unnamed Combatant',
+        totalHp: combatantData.totalHp || 0,
+        currentHp: combatantData.currentHp || combatantData.totalHp || 0,
+        description: combatantData.description || '',
+        createdAt: Date.now(),
+      };
+      const newCombatants = [newCombatant, ...prev];
+      if (newCombatants.length > 20) {
+        newCombatants.splice(20);
+      }
+      localStorage.setItem('dm-app-combatants', JSON.stringify(newCombatants));
+      return newCombatants;
+    });
+  }, []);
+
+  const removeCombatant = useCallback((id) => {
+    setCombatants((prev) => {
+      const filtered = prev.filter((c) => c.id !== id);
+      localStorage.setItem('dm-app-combatants', JSON.stringify(filtered));
+      return filtered;
+    });
+  }, []);
+
+  const updateCombatant = useCallback((id, updates) => {
+    setCombatants((prev) => {
+      const updated = prev.map((c) =>
+        c.id === id ? { ...c, ...updates } : c
+      );
+      localStorage.setItem('dm-app-combatants', JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
+  const duplicateCombatant = useCallback((id) => {
+    setCombatants((prev) => {
+      const combatantToDuplicate = prev.find((c) => c.id === id);
+      if (!combatantToDuplicate) return prev;
+      const newCombatant = {
+        ...combatantToDuplicate,
+        id: `combatant-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        name: `${combatantToDuplicate.name} (Copy)`,
+        createdAt: Date.now(),
+      };
+      const newCombatants = [newCombatant, ...prev];
+      if (newCombatants.length > 20) {
+        newCombatants.splice(20);
+      }
+      localStorage.setItem('dm-app-combatants', JSON.stringify(newCombatants));
+      return newCombatants;
+    });
+  }, []);
+
+  const applyDamage = useCallback((id, amount) => {
+    setCombatants((prev) => {
+      return prev.map((c) => {
+        if (c.id !== id) return c;
+        const newCurrentHp = Math.max(0, c.currentHp + amount);
+        return { ...c, currentHp: newCurrentHp };
+      });
+    });
+  }, []);
+
   const value = {
     rollHistory,
     savedRolls,
+    combatants,
     handleRoll,
     saveRoll,
     updateSavedRoll,
     removeSavedRoll,
     clearHistory,
+    addCombatant,
+    removeCombatant,
+    updateCombatant,
+    duplicateCombatant,
+    applyDamage,
   };
 
   return (

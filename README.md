@@ -1,16 +1,104 @@
-# React + Vite
+# DM Util - Dice Roller & Combat Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite dice roller application designed for tabletop RPG players. Features dice rolling with history, saved rolls, and a combatant tracker.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Dice Rolling**: Support for complex dice commands (e.g., `2d6+5`, `1d20-2`, `2d6+1d4+3`)
+- **Roll History**: Track your recent dice rolls
+- **Saved Rolls**: Save favorite rolls for quick access
+- **Combatant Tracker**: Manage combatants during combat encounters
+- **Responsive Design**: Works on desktop and mobile devices
 
-## React Compiler
+## Dice Command Syntax
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The app uses a flexible dice command format:
 
-## Expanding the ESLint configuration
+```
+[count]d[faces][+/-modifier]
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Examples
+
+| Command | Description |
+|---------|-------------|
+| `1d20` | Single 20-sided die roll |
+| `2d6+5` | Two 6-sided dice plus 5 |
+| `1d20-2` | One 20-sided die minus 2 |
+| `4d6` | Four 6-sided dice |
+| `2d6+1d4+3` | Multiple dice groups with modifiers |
+
+### Rules
+
+- Minimum die faces: 2
+- Maximum die faces: 10,000
+- Maximum command length: 100 characters
+- Supports multiple dice groups in a single command
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173/DM-Tool/`
+
+### Build
+
+```bash
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## Tech Stack
+
+- **React 19** - UI framework
+- **Vite 7** - Build tool and dev server
+- **Tailwind CSS 4** - Styling
+- **PropTypes** - Type checking
+- **React Context API** - State management
+
+## Project Structure
+
+```
+src/
+  components/
+    UI/              # Reusable UI components
+    DiceRoller/      # Dice rolling feature
+    SavedRolls/      # Saved rolls feature
+    CombatantTracker/ # Combat management
+  context/           # React Context providers
+  hooks/             # Custom React hooks
+  utils/             # Utility functions
+  constants.js       # App-wide constants
+```
+
+## Deployment
+
+This app is configured for deployment on GitHub Pages.
+
+```bash
+npm run deploy
+```
+
+## License
+
+MIT

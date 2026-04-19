@@ -6,7 +6,7 @@ import { Panel } from './components/UI/Panel';
 import { DiceProvider, useDiceContext } from './context/DiceContext';
 
 function AppContent() {
-  const { rollHistory, savedRolls, handleRoll, saveRoll, updateSavedRoll, removeSavedRoll } = useDiceContext();
+  const { rollHistory, savedRolls, combatants, handleRoll, saveRoll, updateSavedRoll, removeSavedRoll, addCombatant, removeCombatant, updateCombatant, duplicateCombatant, applyDamage } = useDiceContext();
   const [leftPanelOpen, setLeftPanelOpen] = useState(true);
   const [rightPanelOpen, setRightPanelOpen] = useState(true);
 
@@ -21,7 +21,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-mono overflow-hidden">
-      <main className="flex h-[calc(100vh-20px)] gap-2 relative">
+      <main className="flex h-[calc(100vh-20px)] gap-2 relative w-full justify-center">
         {/* Left Toggle Button - Only visible on small screens */}
         <button
           onClick={() => setLeftPanelOpen(!leftPanelOpen)}
@@ -33,8 +33,8 @@ function AppContent() {
         {/* Left Sidebar */}
         <aside
           className={`${
-            leftPanelOpen ? 'w-64 lg:w-72' : 'w-0 opacity-0 pointer-events-none'
-          } border-r border-[#cd7f32] border-opacity-50 p-2 overflow-y-auto transition-all duration-300 flex-shrink-0`}
+            leftPanelOpen ? 'flex-1 min-w-[320px] max-w-[512px]' : 'w-0 opacity-0 pointer-events-none'
+          } border-r border-[#cd7f32] border-opacity-50 p-2 overflow-y-auto transition-all duration-300`}
         >
           <Panel title="Saved Rolls">
             <SavedRollsPanel
@@ -47,7 +47,7 @@ function AppContent() {
         </aside>
 
         {/* Center Section */}
-        <section className="flex-1 p-2 overflow-y-auto max-w-lg mx-auto w-full">
+        <section className="flex-1 min-w-[320px] max-w-[512px] w-80 lg:w-96 p-2 overflow-y-auto flex-shrink-0">
           <Panel title="Dice Roller">
             <DiceRoller
               onRoll={handleRollSubmit}
@@ -60,11 +60,18 @@ function AppContent() {
         {/* Right Sidebar */}
         <aside
           className={`${
-            rightPanelOpen ? 'w-64 lg:w-72' : 'w-0 opacity-0 pointer-events-none'
-          } border-l border-[#cd7f32] border-opacity-50 p-2 overflow-y-auto transition-all duration-300 flex-shrink-0`}
+            rightPanelOpen ? 'flex-1 min-w-[320px] max-w-[512px]' : 'w-0 opacity-0 pointer-events-none'
+          } border-l border-[#cd7f32] border-opacity-50 p-2 overflow-y-auto transition-all duration-300`}
         >
           <Panel title="Combatants">
-            <CombatantTracker />
+            <CombatantTracker
+              combatants={combatants}
+              onAddCombatant={addCombatant}
+              onRemoveCombatant={removeCombatant}
+              onUpdateCombatant={updateCombatant}
+              onDuplicateCombatant={duplicateCombatant}
+              onApplyDamage={applyDamage}
+            />
           </Panel>
         </aside>
 

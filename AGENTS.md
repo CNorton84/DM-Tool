@@ -1,4 +1,6 @@
-# DM Util App - Agent Guidelines
+# DM Util App - Project Guidelines
+
+Managed by Roo
 
 ## Project Overview
 
