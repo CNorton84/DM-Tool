@@ -15,22 +15,22 @@ export const SavedRollItem = ({ roll, onRoll, onEdit, onDelete }) => {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-[#666] text-xs sm:text-sm font-mono whitespace-nowrap overflow-hidden" title={command}>{command}</span>
-          <div className="flex gap-0.5 sm:gap-1 flex-shrink-0">
+          <div className="flex gap-2 sm:gap-1 flex-shrink-0">
             <button
               onClick={() => onRoll(command)}
-              className="w-5 h-5 sm:w-6 sm:h-6 rounded border border-[#cd7f32] text-[#cd7f32] hover:bg-[#cd7f32] hover:text-[#0a0a0a] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
+              className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#cd7f32] text-[#cd7f32] hover:bg-[#cd7f32] hover:text-[#0a0a0a] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
             >
               ⟳
             </button>
             <button
               onClick={() => onEdit(roll)}
-              className="w-5 h-5 sm:w-6 sm:h-6 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
+              className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
             >
               ✏️
             </button>
             <button
               onClick={() => onDelete(roll.id)}
-              className="w-5 h-5 sm:w-6 sm:h-6 rounded border border-[#ef4444] text-[#ef4444] hover:bg-[#ef4444] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
+              className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#ef4444] text-[#ef4444] hover:bg-[#ef4444] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
             >
               🗑
             </button>

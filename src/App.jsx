@@ -21,7 +21,7 @@ const TabButton = ({ active, onClick, children }) => (
 
 function AppContent() {
   const { rollHistory, savedRolls, combatants, handleRoll, saveRoll, updateSavedRoll, removeSavedRoll, addCombatant, removeCombatant, updateCombatant, duplicateCombatant, applyDamage } = useDiceContext();
-  const { mode, activePanel, setActivePanel } = useMobileLayout();
+  const { mode, activePanel, setActivePanel, touchHandlers } = useMobileLayout();
 
   const handleRollSubmit = (command) => {
     const result = handleRoll(command);
@@ -135,7 +135,11 @@ function AppContent() {
 
   // Mobile layout (< 768px, narrow aspect)
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-mono overflow-hidden">
+    <div
+      className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-mono overflow-hidden"
+      onTouchStart={touchHandlers.onTouchStart}
+      onTouchEnd={touchHandlers.onTouchEnd}
+    >
       <main className="flex h-[calc(100vh-20px)] flex-col gap-2 w-full p-2">
         {/* Tab Bar */}
         <div className="flex gap-1">

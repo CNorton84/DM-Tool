@@ -123,7 +123,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
             {combatant.name}
           </button>
         )}
-        <div className="flex items-center gap-0.5 sm:gap-1 ml-1 sm:ml-2">
+        <div className="flex items-center gap-2 sm:gap-1 ml-1 sm:ml-2">
           <IconButton
             icon="📋"
             onClick={() => onDuplicate(combatant.id)}

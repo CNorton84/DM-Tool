@@ -49,16 +49,16 @@ export const RollResult = ({ result, onSave, onRollAgain }) => {
         <div className="flex items-center justify-center" style={{ minWidth: '2.4rem', width: 'fit-content' }}>
           <span style={getTotalColor()} className="text-[24px] sm:text-[36px] font-bold whitespace-nowrap overflow-hidden" title={total.toString()}>{total}</span>
         </div>
-        <div className="flex flex-col gap-0.5 sm:gap-1">
+        <div className="flex gap-1 flex-row items-center shrink-0">
           <button
             onClick={() => onRollAgain && onRollAgain(result.command || result.formula)}
-            className="w-4 h-4 sm:w-5 sm:h-5 rounded border border-[#666] text-[#666] hover:bg-[#cd7f32] hover:text-[#0a0a0a] hover:border-[#cd7f32] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
+            className="w-8 h-8 rounded border border-[#666] text-[#666] hover:bg-[#cd7f32] hover:text-[#0a0a0a] hover:border-[#cd7f32] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
           >
             ⟳
           </button>
           <button
             onClick={() => onSave && onSave(result)}
-            className="w-4 h-4 sm:w-5 sm:h-5 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
+            className="w-8 h-8 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
           >
             ★
           </button>

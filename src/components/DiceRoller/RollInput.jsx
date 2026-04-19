@@ -32,7 +32,7 @@ export const RollInput = ({ onRoll }) => {
           />
           <button
             type="submit"
-            className="shrink px-4 py-1.5 sm:px-8 sm:py-3 bg-[#cd7f32] text-[#0a0a0a] font-bold rounded hover:bg-[#b86d2a] transition-all duration-200 hover:-translate-y-0.5 text-xs sm:text-base font-mono"
+            className="shrink px-4 py-2 sm:px-8 sm:py-3 bg-[#cd7f32] text-[#0a0a0a] font-bold rounded hover:bg-[#b86d2a] transition-all duration-200 hover:-translate-y-0.5 text-xs sm:text-base font-mono"
           >
             Roll
           </button>

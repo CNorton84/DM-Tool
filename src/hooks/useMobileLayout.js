@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 const BREAKPOINTS = {
   DESKTOP: 1024,
@@ -6,10 +6,12 @@ const BREAKPOINTS = {
 };
 
 const NARROW_ASPECT_RATIO = 0.65;
+const SWIPE_THRESHOLD = 50;
 
 export function useMobileLayout() {
   const [mode, setMode] = useState('desktop');
   const [activePanel, setActivePanel] = useState('savedRolls');
+  const touchStartRef = useRef(null);
 
   const checkMode = useCallback(() => {
     const width = window.innerWidth;
@@ -26,6 +28,35 @@ export function useMobileLayout() {
     }
   }, []);
 
+  const mobilePanels = ['dice', 'savedRolls', 'combatants'];
+
+  const handleTouchStart = useCallback((e) => {
+    touchStartRef.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((e) => {
+    if (touchStartRef.current === null) return;
+    
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStartRef.current - touchEnd;
+    
+    if (Math.abs(diff) > SWIPE_THRESHOLD) {
+      if (diff > 0) {
+        // Swipe left: next panel
+        const currentIndex = mobilePanels.indexOf(activePanel);
+        const nextIndex = (currentIndex + 1) % mobilePanels.length;
+        setActivePanel(mobilePanels[nextIndex]);
+      } else {
+        // Swipe right: previous panel
+        const currentIndex = mobilePanels.indexOf(activePanel);
+        const prevIndex = (currentIndex - 1 + mobilePanels.length) % mobilePanels.length;
+        setActivePanel(mobilePanels[prevIndex]);
+      }
+    }
+    
+    touchStartRef.current = null;
+  }, [activePanel]);
+
   useEffect(() => {
     checkMode();
     window.addEventListener('resize', checkMode);
@@ -36,5 +67,13 @@ export function useMobileLayout() {
     };
   }, [checkMode]);
 
-  return { mode, activePanel, setActivePanel };
+  return {
+    mode,
+    activePanel,
+    setActivePanel,
+    touchHandlers: {
+      onTouchStart: handleTouchStart,
+      onTouchEnd: handleTouchEnd,
+    },
+  };
 }
