@@ -1,15 +1,35 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../UI/Button';
 
 export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onApplyDamage }) => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [nameValue, setNameValue] = useState(combatant.name);
+  const nameInputRef = useRef(null);
+  useEffect(() => {
+    if (isEditingName && nameInputRef.current) {
+      nameInputRef.current.select();
+    }
+  }, [isEditingName]);
+  
   const [damageValue, setDamageValue] = useState('');
   const [isEditingMaxHp, setIsEditingMaxHp] = useState(false);
   const [maxHpValue, setMaxHpValue] = useState(String(combatant.totalHp));
+  const maxHpInputRef = useRef(null);
+  useEffect(() => {
+    if (isEditingMaxHp && maxHpInputRef.current) {
+      maxHpInputRef.current.select();
+    }
+  }, [isEditingMaxHp]);
+  
   const [isEditingCurrentHp, setIsEditingCurrentHp] = useState(false);
   const [currentHpValue, setCurrentHpValue] = useState(String(combatant.currentHp));
+  const currentHpInputRef = useRef(null);
+  useEffect(() => {
+    if (isEditingCurrentHp && currentHpInputRef.current) {
+      currentHpInputRef.current.select();
+    }
+  }, [isEditingCurrentHp]);
 
   const handleNameBlur = () => {
     setIsEditingName(false);
@@ -105,6 +125,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
       <div className="min-w-0 mb-1.5 sm:mb-2">
         {isEditingName ? (
           <input
+            ref={nameInputRef}
             type="text"
             value={nameValue}
             onChange={(e) => setNameValue(e.target.value)}
@@ -131,6 +152,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
             {/* Current HP */}
             {isEditingCurrentHp ? (
               <input
+                ref={currentHpInputRef}
                 type="text"
                 inputMode="numeric"
                 pattern="-?[0-9]*"
@@ -160,6 +182,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
             {/* Max HP */}
             {isEditingMaxHp ? (
               <input
+                ref={maxHpInputRef}
                 type="text"
                 inputMode="numeric"
                 pattern="-?[0-9]*"
@@ -217,7 +240,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
           value={damageValue}
           onChange={(e) => setDamageValue(e.target.value)}
           onKeyDown={handleDamageKeyDown}
-          placeholder="5"
+          placeholder=""
           className="flex-1 min-w-0 bg-[#0a0a0a] border border-[#333] rounded px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs sm:text-sm text-[#e0e0e0] focus:outline-none focus:border-[#cd7f32]"
         />
         <Button

@@ -1,23 +1,6 @@
-import { useState } from 'react';
 import { SavedRollItem } from './SavedRollItem';
-import { EditLabelModal } from './EditLabelModal';
 
 export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete }) => {
-  const [editingRoll, setEditingRoll] = useState(null);
-
-  const handleEdit = (roll) => {
-    setEditingRoll(roll);
-  };
-
-  const handleCloseModal = () => {
-    setEditingRoll(null);
-  };
-
-  const handleSave = (id, updates) => {
-    onUpdate(id, updates);
-    setEditingRoll(null);
-  };
-
   if (savedRolls.length === 0) {
     return (
       <div className="text-[#888] text-center py-12">
@@ -28,25 +11,16 @@ export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete }) => {
   }
 
   return (
-    <div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-        {savedRolls.map((roll) => (
-          <SavedRollItem
-            key={roll.id}
-            roll={roll}
-            onRoll={onRoll}
-            onEdit={handleEdit}
-            onDelete={onDelete}
-          />
-        ))}
-      </div>
-      {editingRoll && (
-        <EditLabelModal
-          roll={editingRoll}
-          onSave={handleSave}
-          onClose={handleCloseModal}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+      {savedRolls.map((roll) => (
+        <SavedRollItem
+          key={roll.id}
+          roll={roll}
+          onRoll={onRoll}
+          onUpdate={onUpdate}
+          onDelete={onDelete}
         />
-      )}
+      ))}
     </div>
   );
 };

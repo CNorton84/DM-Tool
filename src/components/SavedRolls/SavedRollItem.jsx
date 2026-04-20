@@ -1,16 +1,67 @@
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-export const SavedRollItem = ({ roll, onRoll, onEdit, onDelete }) => {
+export const SavedRollItem = ({ roll, onRoll, onUpdate, onDelete }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(roll.label || '');
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.select();
+    }
+  }, [isEditing]);
+
+  const handleEditStart = () => {
+    setEditValue(roll.label || '');
+    setIsEditing(true);
+  };
+
+  const handleEditSave = () => {
+    setIsEditing(false);
+    if (editValue.trim() !== (roll.label || '')) {
+      onUpdate(roll.id, { label: editValue.trim() || roll.command });
+    }
+  };
+
+  const handleEditKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleEditSave();
+    } else if (e.key === 'Escape') {
+      setEditValue(roll.label || '');
+      setIsEditing(false);
+    }
+  };
+
   const { command, label } = roll;
 
   return (
     <div className="bg-[#0a0a0a] border border-[#cd7f32] border-opacity-50 rounded-lg p-1.5 sm:p-2 transition-all duration-200 hover:bg-[#1a1a1a] origin-center">
       <div className="flex flex-col">
         <div className="flex-1 min-w-0 mb-0.5 sm:mb-1">
-          {label ? (
-            <h3 className="text-[#cd7f32] font-bold text-xs sm:text-base whitespace-nowrap overflow-hidden" title={label}>{label}</h3>
+          {isEditing ? (
+            <input
+              ref={inputRef}
+              type="text"
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              onBlur={handleEditSave}
+              onKeyDown={handleEditKeyDown}
+              className="w-full bg-[#0a0a0a] border border-[#cd7f32] rounded px-1.5 py-0.5 sm:px-2 sm:py-1 text-[#cd7f32] font-bold text-xs sm:text-base focus:outline-none"
+              autoFocus
+            />
           ) : (
-            <span className="text-[#888] text-xs sm:text-base whitespace-nowrap overflow-hidden" title={command}>{command}</span>
+            <button
+              onClick={handleEditStart}
+              className="w-full text-left truncate"
+              title={label || command}
+            >
+              {label ? (
+                <h3 className="text-[#cd7f32] font-bold text-xs sm:text-base whitespace-nowrap hover:text-[#e0e0e0]">{label}</h3>
+              ) : (
+                <span className="text-[#888] text-xs sm:text-base whitespace-nowrap">{command}</span>
+              )}
+            </button>
           )}
         </div>
         <div className="flex items-center justify-between">
@@ -21,12 +72,6 @@ export const SavedRollItem = ({ roll, onRoll, onEdit, onDelete }) => {
               className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#cd7f32] text-[#cd7f32] hover:bg-[#cd7f32] hover:text-[#0a0a0a] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
             >
               ⟳
-            </button>
-            <button
-              onClick={() => onEdit(roll)}
-              className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
-            >
-              ✏️
             </button>
             <button
               onClick={() => onDelete(roll.id)}
@@ -48,6 +93,6 @@ SavedRollItem.propTypes = {
     label: PropTypes.string,
   }).isRequired,
   onRoll: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

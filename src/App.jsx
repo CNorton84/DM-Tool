@@ -28,6 +28,11 @@ function AppContent() {
     return result;
   };
 
+  const handleRollFromSaved = (command) => {
+    handleRollSubmit(command);
+    setActivePanel('dice');
+  };
+
   const handleSaveRoll = (roll) => {
     saveRoll(roll);
   };
@@ -42,7 +47,7 @@ function AppContent() {
             <Panel title="Saved Rolls">
               <SavedRollsPanel
                 savedRolls={savedRolls}
-                onRoll={handleRollSubmit}
+                onRoll={handleRollFromSaved}
                 onUpdate={updateSavedRoll}
                 onDelete={removeSavedRoll}
               />
@@ -98,7 +103,7 @@ function AppContent() {
                 <Panel title="Saved Rolls">
                   <SavedRollsPanel
                     savedRolls={savedRolls}
-                    onRoll={handleRollSubmit}
+                    onRoll={handleRollFromSaved}
                     onUpdate={updateSavedRoll}
                     onDelete={removeSavedRoll}
                   />
@@ -169,7 +174,7 @@ function AppContent() {
             <Panel title="Saved Rolls">
               <SavedRollsPanel
                 savedRolls={savedRolls}
-                onRoll={handleRollSubmit}
+                onRoll={handleRollFromSaved}
                 onUpdate={updateSavedRoll}
                 onDelete={removeSavedRoll}
               />
