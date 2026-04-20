@@ -233,8 +233,14 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
               title="Duplicate combatant"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                <rect x="1" y="1" width="9" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5"/>
-                <rect x="4" y="4" width="9" height="9" rx="1" fill="#0a0a0a" stroke="currentColor" strokeWidth="1.5"/>
+                <rect x="4" y="4" width="9" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                <rect x="1" y="1" width="9" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5" mask="url(#duplicateMask)"/>
+                <defs>
+                  <mask id="duplicateMask">
+                    <rect x="0" y="0" width="14" height="14" fill="white"/>
+                    <rect x="4" y="4" width="9" height="9" rx="1" fill="black"/>
+                  </mask>
+                </defs>
               </svg>
             </button>
             <button
