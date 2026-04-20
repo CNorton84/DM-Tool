@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../UI/Button';
+import { parseDiceCommand, rollDice } from '../../utils/diceParser';
 
 export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onApplyDamage }) => {
   const [isEditingName, setIsEditingName] = useState(false);
@@ -83,9 +84,13 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
   };
 
   const handleDamageApply = () => {
-    const amount = parseInt(damageValue, 10);
-    if (!isNaN(amount)) {
-      onApplyDamage(combatant.id, -amount);
+    const trimmed = damageValue.trim();
+    if (!trimmed) return;
+
+    const parsed = parseDiceCommand(trimmed);
+    if (parsed.valid) {
+      const result = rollDice(parsed.parts);
+      onApplyDamage(combatant.id, -result.total);
     }
     setDamageValue('');
   };
@@ -235,12 +240,10 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
         <span className="text-[10px] sm:text-xs text-[#888] whitespace-nowrap">Damage:</span>
         <input
           type="text"
-          inputMode="numeric"
-          pattern="-?[0-9]*"
           value={damageValue}
           onChange={(e) => setDamageValue(e.target.value)}
           onKeyDown={handleDamageKeyDown}
-          placeholder=""
+          placeholder="e.g., 2d6+3"
           className="flex-1 min-w-0 bg-[#0a0a0a] border border-[#333] rounded px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs sm:text-sm text-[#e0e0e0] focus:outline-none focus:border-[#cd7f32]"
         />
         <Button
