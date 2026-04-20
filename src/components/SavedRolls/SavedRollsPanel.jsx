@@ -1,16 +1,17 @@
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
-import { useReorder } from '../../hooks/useReorder';
 import { SortableSavedRollItem } from './SortableSavedRollItem';
+import { useCallback } from 'react';
+import PropTypes from 'prop-types';
 
 export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete, onReorder }) => {
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 15 } }),
+    useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, { coordinateGetter: undefined })
   );
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = useCallback((event) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
       const oldIndex = savedRolls.findIndex((roll) => roll.id === active.id);
@@ -22,7 +23,7 @@ export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete, onReor
         onReorder(newOrder);
       }
     }
-  };
+  }, [savedRolls, onReorder]);
 
   if (savedRolls.length === 0) {
     return (
@@ -58,4 +59,12 @@ export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete, onReor
       </SortableContext>
     </DndContext>
   );
+};
+
+SavedRollsPanel.propTypes = {
+  savedRolls: PropTypes.array.isRequired,
+  onRoll: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onReorder: PropTypes.func,
 };

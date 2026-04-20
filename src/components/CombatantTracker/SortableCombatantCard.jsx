@@ -20,7 +20,7 @@ export const SortableCombatantCard = ({ combatant, onUpdate, onRemove, onDuplica
   };
 
   return (
-    <div style={style}>
+    <div style={style} data-dnd-sortable-item>
       <CombatantCard
         combatant={combatant}
         onUpdate={onUpdate}

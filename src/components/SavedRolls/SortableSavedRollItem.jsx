@@ -20,7 +20,7 @@ export const SortableSavedRollItem = ({ roll, onRoll, onUpdate, onDelete }) => {
   };
 
   return (
-    <div style={style}>
+    <div style={style} data-dnd-sortable-item>
       <SavedRollItem
         roll={roll}
         onRoll={onRoll}

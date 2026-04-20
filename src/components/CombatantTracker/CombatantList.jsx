@@ -1,16 +1,17 @@
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
-import PropTypes from 'prop-types';
 import { SortableCombatantCard } from './SortableCombatantCard';
+import { useCallback } from 'react';
+import PropTypes from 'prop-types';
 
 export const CombatantList = ({ combatants, onUpdate, onRemove, onDuplicate, onApplyDamage, onReorder }) => {
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 15 } }),
+    useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, { coordinateGetter: undefined })
   );
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = useCallback((event) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
       const oldIndex = combatants.findIndex((c) => c.id === active.id);
@@ -22,7 +23,7 @@ export const CombatantList = ({ combatants, onUpdate, onRemove, onDuplicate, onA
         onReorder(newOrder);
       }
     }
-  };
+  }, [combatants, onReorder]);
 
   if (combatants.length === 0) {
     return (

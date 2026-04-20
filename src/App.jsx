@@ -171,7 +171,7 @@ function AppContent() {
         </div>
 
         {/* Full-screen Panel Content */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto" data-scrollable-panel>
           {activePanel === 'dice' && (
             <Panel title="Dice Roller">
               <DiceRoller

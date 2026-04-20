@@ -142,7 +142,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
         ) : (
           <div className="flex items-center gap-2 text-left">
             <button
-              className="cursor-grab active:cursor-grabbing flex-shrink-0 p-1 -ml-1 mt-0.5"
+              className="cursor-grab active:cursor-grabbing flex-shrink-0 p-1 -ml-1 mt-0.5 touch-action-none"
               {...attributes}
               {...listeners}
               aria-label="Drag to reorder"
