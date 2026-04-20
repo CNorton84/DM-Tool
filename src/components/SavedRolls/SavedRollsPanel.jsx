@@ -28,7 +28,7 @@ export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete, onReor
   if (savedRolls.length === 0) {
     return (
       <div className="text-[#888] text-center py-12">
-        <p className="text-xl font-bold mb-2">📋 No saved rolls</p>
+        <p className="text-xl font-bold mb-2">No saved rolls</p>
         <p className="text-base">Click the star icon on any roll to save it.</p>
       </div>
     );
