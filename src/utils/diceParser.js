@@ -41,12 +41,12 @@ function tokenize(input) {
       continue;
     }
 
-    // Dice notation: optional count, 'd', required faces
-    if (char === 'd' || (/[0-9]/.test(char) && input.slice(i).match(/^\d*d\d+/))) {
-      const match = input.slice(i).match(/^\d*d\d+/);
+    // Dice notation: optional count, 'd' or 'D', required faces
+    if (char.toLowerCase() === 'd' || (/[0-9]/.test(char) && input.slice(i).match(/^\d*[dD]\d+/))) {
+      const match = input.slice(i).match(/^\d*[dD]\d+/);
       if (match) {
         const diceStr = match[0];
-        const parts = diceStr.match(/^(\d*)d(\d+)$/);
+        const parts = diceStr.match(/^(\d*)[dD](\d+)$/i);
         tokens.push({
           type: TOKEN_TYPE.DICE,
           count: parts[1] ? parseInt(parts[1], 10) : 1,
