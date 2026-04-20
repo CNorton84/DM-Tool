@@ -1,0 +1,7 @@
+/DM-Tool/manifest.json
+  Content-Type: application/manifest+json
+  Cache-Control: no-cache
+
+/DM-Tool/manifest.webmanifest
+  Content-Type: application/manifest+json
+  Cache-Control: no-cache
