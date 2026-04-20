@@ -10,8 +10,33 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon-192.png', 'icon-512.png'],
-      manifest: '/manifest.json',
-      manifestFilename: 'manifest.webmanifest',
+      manifest: {
+        name: 'DM Util - Dice Roller & Combat Tracker',
+        short_name: 'DM Util',
+        description: 'Dice roller and combat tracker for tabletop RPGs',
+        start_url: '/DM-Tool/',
+        scope: '/DM-Tool/',
+        display: 'standalone',
+        display_override: ['standalone', 'fullscreen'],
+        background_color: '#0a0a0a',
+        theme_color: '#cd7f32',
+        icons: [
+          {
+            src: '/DM-Tool/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any maskable'
+          },
+          {
+            src: '/DM-Tool/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ],
+        categories: ['utilities', 'games'],
+        lang: 'en-US'
+      },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,gif,woff,woff2,ttf,eot}'],
         globIgnores: ['**/*.map'],
