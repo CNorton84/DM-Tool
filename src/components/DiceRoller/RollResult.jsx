@@ -1,8 +1,17 @@
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { getDieColor } from '../../utils/colorCalculator';
 
 export const RollResult = ({ result, onSave, onRollAgain }) => {
+  const [isSaving, setIsSaving] = useState(false);
   const { total, dice, minPossible, maxPossible } = result;
+
+  const handleSave = useCallback(() => {
+    if (isSaving || !onSave) return;
+    onSave(result);
+    setIsSaving(true);
+    setTimeout(() => setIsSaving(false), 600);
+  }, [isSaving, onSave, result]);
 
   const getTotalColor = () => {
     const avg = Math.round((minPossible + maxPossible) / 2);
@@ -57,10 +66,15 @@ export const RollResult = ({ result, onSave, onRollAgain }) => {
             ⟳
           </button>
           <button
-            onClick={() => onSave && onSave(result)}
-            className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
+            onClick={handleSave}
+            className={`w-8 h-8 sm:w-6 sm:h-6 rounded border text-xs sm:text-sm flex items-center justify-center transition-all duration-200 font-mono ${
+              isSaving
+                ? 'border-[#10b981] text-[#10b981] bg-[#10b981] bg-opacity-20'
+                : 'border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0]'
+            }`}
+            title={isSaving ? 'Saved!' : 'Save roll'}
           >
-            ★
+            {isSaving ? '✓' : '★'}
           </button>
         </div>
         <div className="flex flex-col justify-center gap-0.5 sm:gap-1 flex-1 min-w-0">

@@ -56,7 +56,7 @@ export const DiceProvider = ({ children }) => {
 
   const saveRoll = useCallback((roll) => {
     const savedCommand = {
-      id: roll.id,
+      id: `saved-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       command: roll.command || roll.formula,
       label: roll.label || roll.command || roll.formula,
       createdAt: Date.now(),
