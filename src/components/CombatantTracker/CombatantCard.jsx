@@ -119,7 +119,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
   };
 
   return (
-    <div ref={setNodeRef} className={`bg-[#0a0a0a] border rounded-lg p-1.5 sm:p-2 mb-0 transition-all duration-200 overflow-hidden ${
+    <div ref={setNodeRef} tabIndex={0} className={`bg-[#0a0a0a] border rounded-lg p-1.5 sm:p-2 mb-0 transition-all duration-200 overflow-hidden ${
       combatant.currentHp <= 0
         ? 'border-red-800 opacity-70'
         : combatant.currentHp <= combatant.totalHp * 0.25

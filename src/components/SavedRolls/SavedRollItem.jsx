@@ -36,7 +36,7 @@ export const SavedRollItem = ({ roll, onRoll, onUpdate, onDelete, attributes, li
   const { command, label } = roll;
 
   return (
-    <div ref={setNodeRef} className="bg-[#0a0a0a] border border-[#cd7f32] border-opacity-50 rounded-lg p-1.5 sm:p-2 transition-all duration-200 hover:bg-[#1a1a1a] origin-center">
+    <div ref={setNodeRef} tabIndex={0} className="bg-[#0a0a0a] border border-[#cd7f32] border-opacity-50 rounded-lg p-1.5 sm:p-2 transition-all duration-200 hover:bg-[#1a1a1a] origin-center">
       <div className="flex flex-col">
         <div className="flex-1 min-w-0 mb-0.5 sm:mb-1">
           {isEditing ? (

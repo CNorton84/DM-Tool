@@ -1,4 +1,4 @@
-import { DndContext, closestCenter, KeyboardSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, TouchSensor, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { SortableCombatantCard } from './SortableCombatantCard';
@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 
 export const CombatantList = ({ combatants, onUpdate, onRemove, onDuplicate, onApplyDamage, onReorder }) => {
   const sensors = useSensors(
-    useSensor(TouchSensor, {}),
+    useSensor(MouseSensor),
+    useSensor(TouchSensor, { tolerance: 10 }),
     useSensor(KeyboardSensor, { coordinateGetter: undefined })
   );
 
