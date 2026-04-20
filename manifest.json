@@ -2,11 +2,12 @@
   "name": "DM Util - Dice Roller & Combat Tracker",
   "short_name": "DM Util",
   "description": "Dice roller and combat tracker for tabletop RPGs",
-  "start_url": "/",
+  "start_url": "/DM-Tool/",
+  "scope": "/DM-Tool/",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
   "background_color": "#0a0a0a",
   "theme_color": "#cd7f32",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "/icon-192.png",
