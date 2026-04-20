@@ -6,8 +6,7 @@ export const RollHistory = ({ history, onSave, onRollAgain }) => {
   if (history.length === 0) {
     return (
       <div className="text-[#888] text-center py-12">
-        <p className="text-xl font-bold mb-2">🎲 No rolls yet</p>
-        <p className="text-base">Make a roll to get started!</p>
+        <p className="text-base font-bold">No rolls yet</p>
       </div>
     );
   }

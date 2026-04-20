@@ -159,14 +159,14 @@ function AppContent() {
       <main className="flex h-[calc(100vh-20px)] flex-col gap-2 w-full p-2">
         {/* Tab Bar */}
         <div className="flex gap-1">
-          <TabButton active={activePanel === 'dice'} onClick={() => setActivePanel('dice')}>
-            Dice
-          </TabButton>
           <TabButton active={activePanel === 'savedRolls'} onClick={() => setActivePanel('savedRolls')}>
-            Saved
+            Saved Rolls
+          </TabButton>
+          <TabButton active={activePanel === 'dice'} onClick={() => setActivePanel('dice')}>
+            Dice Roller
           </TabButton>
           <TabButton active={activePanel === 'combatants'} onClick={() => setActivePanel('combatants')}>
-            Combat
+            Combatants
           </TabButton>
         </div>
 

@@ -52,13 +52,13 @@ export const RollResult = ({ result, onSave, onRollAgain }) => {
         <div className="flex gap-2 flex-row items-center shrink-0">
           <button
             onClick={() => onRollAgain && onRollAgain(result.command || result.formula)}
-            className="w-8 h-8 rounded border border-[#666] text-[#666] hover:bg-[#cd7f32] hover:text-[#0a0a0a] hover:border-[#cd7f32] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
+            className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#cd7f32] text-[#cd7f32] hover:bg-[#cd7f32] hover:text-[#0a0a0a] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
           >
             ⟳
           </button>
           <button
             onClick={() => onSave && onSave(result)}
-            className="w-8 h-8 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
+            className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#9333ea] text-[#9333ea] hover:bg-[#9333ea] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
           >
             ★
           </button>

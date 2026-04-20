@@ -119,7 +119,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
   };
 
   return (
-    <div ref={setNodeRef} className={`bg-[#1a1a1a] border rounded-lg p-1.5 sm:p-2 mb-0 transition-all duration-200 overflow-hidden ${
+    <div ref={setNodeRef} className={`bg-[#0a0a0a] border rounded-lg p-1.5 sm:p-2 mb-0 transition-all duration-200 overflow-hidden ${
       combatant.currentHp <= 0
         ? 'border-red-800 opacity-70'
         : combatant.currentHp <= combatant.totalHp * 0.25
@@ -232,7 +232,10 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
               className="w-8 h-8 rounded border border-[#888] text-[#888] hover:text-[#cd7f32] hover:border-[#cd7f32] hover:bg-[#2a2a2a] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
               title="Duplicate combatant"
             >
-              📋
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                <rect x="4" y="4" width="9" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                <rect x="1" y="1" width="9" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+              </svg>
             </button>
             <button
               onClick={() => onRemove(combatant.id)}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from '../UI/Button';
 import { ErrorModal } from '../UI/ErrorModal';
 
 export const RollInput = ({ onRoll }) => {
@@ -30,12 +31,13 @@ export const RollInput = ({ onRoll }) => {
             placeholder="e.g., 2d6+1"
             className="flex-1 min-w-0 bg-[#0a0a0a] border border-[#cd7f32] rounded px-2 py-1.5 sm:px-5 sm:py-3 text-[#e0e0e0] text-sm sm:text-lg font-mono font-bold focus:outline-none focus:ring-2 focus:ring-[#9333ea] transition-all duration-200"
           />
-          <button
+          <Button
             type="submit"
-            className="shrink px-4 py-2 sm:px-8 sm:py-3 bg-[#cd7f32] text-[#0a0a0a] font-bold rounded hover:bg-[#b86d2a] transition-all duration-200 hover:-translate-y-0.5 text-xs sm:text-base font-mono"
+            variant="primary"
+            className="shrink"
           >
             Roll
-          </button>
+          </Button>
         </div>
       </form>
       {error && <ErrorModal error={error} onClose={() => setError(null)} />}

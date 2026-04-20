@@ -31,7 +31,6 @@ export const CombatantTracker = ({ onReorder }) => {
       <Button
         onClick={handleAddCombatant}
         variant="primary"
-        size="sm"
         className="w-full"
       >
         + Add Combatant

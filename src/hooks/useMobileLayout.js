@@ -28,7 +28,7 @@ export function useMobileLayout() {
     }
   }, []);
 
-  const mobilePanels = ['dice', 'savedRolls', 'combatants'];
+  const mobilePanels = ['savedRolls', 'dice', 'combatants'];
 
   const handleTouchStart = useCallback((e) => {
     touchStartRef.current = e.touches[0].clientX;

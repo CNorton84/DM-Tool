@@ -95,7 +95,7 @@ export const SavedRollItem = ({ roll, onRoll, onUpdate, onDelete, attributes, li
               onClick={() => onDelete(roll.id)}
               className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-[#ef4444] text-[#ef4444] hover:bg-[#ef4444] hover:text-[#e0e0e0] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
             >
-              🗑
+              ✕
             </button>
           </div>
         </div>
