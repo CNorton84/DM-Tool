@@ -2,7 +2,7 @@ import { useDiceContext } from '../../context/DiceContext';
 import { CombatantList } from './CombatantList';
 import { Button } from '../UI/Button';
 
-export const CombatantTracker = () => {
+export const CombatantTracker = ({ onReorder }) => {
   const { combatants, addCombatant, removeCombatant, updateCombatant, duplicateCombatant, applyDamage } = useDiceContext();
 
   const handleAddCombatant = () => {
@@ -44,6 +44,7 @@ export const CombatantTracker = () => {
         onRemove={handleRemove}
         onDuplicate={handleDuplicate}
         onApplyDamage={handleApplyDamage}
+        onReorder={onReorder}
       />
     </div>
   );

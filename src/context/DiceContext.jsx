@@ -165,6 +165,16 @@ export const DiceProvider = ({ children }) => {
     });
   }, []);
 
+  const reorderCombatants = useCallback((newOrder) => {
+    localStorage.setItem('dm-app-combatants', JSON.stringify(newOrder));
+    setCombatants(newOrder);
+  }, []);
+
+  const reorderSavedRolls = useCallback((newOrder) => {
+    localStorage.setItem('dm-app-saved-rolls', JSON.stringify(newOrder));
+    setSavedRolls(newOrder);
+  }, []);
+
   const value = {
     rollHistory,
     savedRolls,
@@ -179,6 +189,8 @@ export const DiceProvider = ({ children }) => {
     updateCombatant,
     duplicateCombatant,
     applyDamage,
+    reorderCombatants,
+    reorderSavedRolls,
   };
 
   return (

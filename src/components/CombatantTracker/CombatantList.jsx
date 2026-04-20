@@ -1,7 +1,29 @@
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import PropTypes from 'prop-types';
-import { CombatantCard } from './CombatantCard';
+import { SortableCombatantCard } from './SortableCombatantCard';
 
-export const CombatantList = ({ combatants, onUpdate, onRemove, onDuplicate, onApplyDamage }) => {
+export const CombatantList = ({ combatants, onUpdate, onRemove, onDuplicate, onApplyDamage, onReorder }) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 15 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: undefined })
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      const oldIndex = combatants.findIndex((c) => c.id === active.id);
+      const newIndex = combatants.findIndex((c) => c.id === over.id);
+      const newOrder = [...combatants];
+      const [removed] = newOrder.splice(oldIndex, 1);
+      newOrder.splice(newIndex, 0, removed);
+      if (onReorder) {
+        onReorder(newOrder);
+      }
+    }
+  };
+
   if (combatants.length === 0) {
     return (
       <div className="flex items-center justify-center h-full text-[#888]">
@@ -14,18 +36,30 @@ export const CombatantList = ({ combatants, onUpdate, onRemove, onDuplicate, onA
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
-      {combatants.map((combatant) => (
-        <CombatantCard
-          key={combatant.id}
-          combatant={combatant}
-          onUpdate={onUpdate}
-          onRemove={onRemove}
-          onDuplicate={onDuplicate}
-          onApplyDamage={onApplyDamage}
-        />
-      ))}
-    </div>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      modifiers={[restrictToWindowEdges]}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={combatants.map((c) => c.id)}
+        strategy={rectSortingStrategy}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 overflow-hidden">
+          {combatants.map((combatant) => (
+            <SortableCombatantCard
+              key={combatant.id}
+              combatant={combatant}
+              onUpdate={onUpdate}
+              onRemove={onRemove}
+              onDuplicate={onDuplicate}
+              onApplyDamage={onApplyDamage}
+            />
+          ))}
+        </div>
+      </SortableContext>
+    </DndContext>
   );
 };
 
@@ -43,4 +77,5 @@ CombatantList.propTypes = {
   onRemove: PropTypes.func.isRequired,
   onDuplicate: PropTypes.func.isRequired,
   onApplyDamage: PropTypes.func.isRequired,
+  onReorder: PropTypes.func,
 };

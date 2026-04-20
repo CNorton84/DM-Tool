@@ -1,6 +1,29 @@
-import { SavedRollItem } from './SavedRollItem';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import { restrictToWindowEdges } from '@dnd-kit/modifiers';
+import { useReorder } from '../../hooks/useReorder';
+import { SortableSavedRollItem } from './SortableSavedRollItem';
 
-export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete }) => {
+export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete, onReorder }) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 15 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: undefined })
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      const oldIndex = savedRolls.findIndex((roll) => roll.id === active.id);
+      const newIndex = savedRolls.findIndex((roll) => roll.id === over.id);
+      if (onReorder) {
+        const newOrder = [...savedRolls];
+        const [removed] = newOrder.splice(oldIndex, 1);
+        newOrder.splice(newIndex, 0, removed);
+        onReorder(newOrder);
+      }
+    }
+  };
+
   if (savedRolls.length === 0) {
     return (
       <div className="text-[#888] text-center py-12">
@@ -11,16 +34,28 @@ export const SavedRollsPanel = ({ savedRolls, onRoll, onUpdate, onDelete }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-      {savedRolls.map((roll) => (
-        <SavedRollItem
-          key={roll.id}
-          roll={roll}
-          onRoll={onRoll}
-          onUpdate={onUpdate}
-          onDelete={onDelete}
-        />
-      ))}
-    </div>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      modifiers={[restrictToWindowEdges]}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={savedRolls.map((r) => r.id)}
+        strategy={rectSortingStrategy}
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 overflow-hidden">
+          {savedRolls.map((roll) => (
+            <SortableSavedRollItem
+              key={roll.id}
+              roll={roll}
+              onRoll={onRoll}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+            />
+          ))}
+        </div>
+      </SortableContext>
+    </DndContext>
   );
 };

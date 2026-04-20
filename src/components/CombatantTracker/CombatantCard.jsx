@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../UI/Button';
 import { parseDiceCommand, rollDice } from '../../utils/diceParser';
 
-export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onApplyDamage }) => {
+export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onApplyDamage, attributes, listeners, setNodeRef }) => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [nameValue, setNameValue] = useState(combatant.name);
   const nameInputRef = useRef(null);
@@ -119,7 +119,7 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
   };
 
   return (
-    <div className={`bg-[#1a1a1a] border rounded-lg p-1.5 sm:p-2 mb-0 transition-all duration-200 overflow-hidden ${
+    <div ref={setNodeRef} className={`bg-[#1a1a1a] border rounded-lg p-1.5 sm:p-2 mb-0 transition-all duration-200 overflow-hidden ${
       combatant.currentHp <= 0
         ? 'border-red-800 opacity-70'
         : combatant.currentHp <= combatant.totalHp * 0.25
@@ -140,13 +140,31 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
             autoFocus
           />
         ) : (
-          <button
-            onClick={() => setIsEditingName(true)}
-            className="w-full text-left text-sm sm:text-base font-bold text-[#e0e0e0] hover:text-[#cd7f32] truncate"
-            title="Click to edit name"
-          >
-            {combatant.name}
-          </button>
+          <div className="flex items-center gap-2 text-left">
+            <button
+              className="cursor-grab active:cursor-grabbing flex-shrink-0 p-1 -ml-1 mt-0.5"
+              {...attributes}
+              {...listeners}
+              aria-label="Drag to reorder"
+              tabIndex={-1}
+            >
+              <svg width="12" height="16" viewBox="0 0 12 16" fill="#666">
+                <circle cx="3" cy="2" r="1.5" />
+                <circle cx="9" cy="2" r="1.5" />
+                <circle cx="3" cy="8" r="1.5" />
+                <circle cx="9" cy="8" r="1.5" />
+                <circle cx="3" cy="14" r="1.5" />
+                <circle cx="9" cy="14" r="1.5" />
+              </svg>
+            </button>
+            <button
+              onClick={() => setIsEditingName(true)}
+              className="text-sm sm:text-base font-bold text-[#e0e0e0] hover:text-[#cd7f32] truncate"
+              title="Click to edit name"
+            >
+              {combatant.name}
+            </button>
+          </div>
         )}
       </div>
 
@@ -285,4 +303,6 @@ CombatantCard.propTypes = {
   onRemove: PropTypes.func.isRequired,
   onDuplicate: PropTypes.func.isRequired,
   onApplyDamage: PropTypes.func.isRequired,
+  attributes: PropTypes.object,
+  listeners: PropTypes.object,
 };

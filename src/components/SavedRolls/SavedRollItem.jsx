@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-export const SavedRollItem = ({ roll, onRoll, onUpdate, onDelete }) => {
+export const SavedRollItem = ({ roll, onRoll, onUpdate, onDelete, attributes, listeners, setNodeRef }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(roll.label || '');
   const inputRef = useRef(null);
@@ -36,7 +36,7 @@ export const SavedRollItem = ({ roll, onRoll, onUpdate, onDelete }) => {
   const { command, label } = roll;
 
   return (
-    <div className="bg-[#0a0a0a] border border-[#cd7f32] border-opacity-50 rounded-lg p-1.5 sm:p-2 transition-all duration-200 hover:bg-[#1a1a1a] origin-center">
+    <div ref={setNodeRef} className="bg-[#0a0a0a] border border-[#cd7f32] border-opacity-50 rounded-lg p-1.5 sm:p-2 transition-all duration-200 hover:bg-[#1a1a1a] origin-center">
       <div className="flex flex-col">
         <div className="flex-1 min-w-0 mb-0.5 sm:mb-1">
           {isEditing ? (
@@ -51,17 +51,35 @@ export const SavedRollItem = ({ roll, onRoll, onUpdate, onDelete }) => {
               autoFocus
             />
           ) : (
-            <button
-              onClick={handleEditStart}
-              className="w-full text-left truncate"
-              title={label || command}
-            >
-              {label ? (
-                <h3 className="text-[#cd7f32] font-bold text-xs sm:text-base whitespace-nowrap hover:text-[#e0e0e0]">{label}</h3>
-              ) : (
-                <span className="text-[#888] text-xs sm:text-base whitespace-nowrap">{command}</span>
-              )}
-            </button>
+            <div className="flex items-center gap-2 w-full text-left truncate">
+                <button
+                  className="cursor-grab active:cursor-grabbing flex-shrink-0 p-1 -ml-1 mt-0.5"
+                {...attributes}
+                {...listeners}
+                aria-label="Drag to reorder"
+                tabIndex={-1}
+              >
+                <svg width="12" height="16" viewBox="0 0 12 16" fill="#666">
+                  <circle cx="3" cy="2" r="1.5" />
+                  <circle cx="9" cy="2" r="1.5" />
+                  <circle cx="3" cy="8" r="1.5" />
+                  <circle cx="9" cy="8" r="1.5" />
+                  <circle cx="3" cy="14" r="1.5" />
+                  <circle cx="9" cy="14" r="1.5" />
+                </svg>
+              </button>
+              <button
+                onClick={handleEditStart}
+                className="truncate"
+                title={label || command}
+              >
+                {label ? (
+                  <h3 className="text-[#cd7f32] font-bold text-xs sm:text-base whitespace-nowrap hover:text-[#e0e0e0]">{label}</h3>
+                ) : (
+                  <span className="text-[#888] text-xs sm:text-base whitespace-nowrap">{command}</span>
+                )}
+              </button>
+            </div>
           )}
         </div>
         <div className="flex items-center justify-between">
@@ -95,4 +113,6 @@ SavedRollItem.propTypes = {
   onRoll: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  attributes: PropTypes.object,
+  listeners: PropTypes.object,
 };

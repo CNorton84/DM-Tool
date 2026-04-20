@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { DiceRoller } from './components/DiceRoller/DiceRoller';
 import { SavedRollsPanel } from './components/SavedRolls/SavedRollsPanel';
 import { CombatantTracker } from './components/CombatantTracker/CombatantTracker';
@@ -20,7 +19,7 @@ const TabButton = ({ active, onClick, children }) => (
 );
 
 function AppContent() {
-  const { rollHistory, savedRolls, combatants, handleRoll, saveRoll, updateSavedRoll, removeSavedRoll, addCombatant, removeCombatant, updateCombatant, duplicateCombatant, applyDamage } = useDiceContext();
+  const { rollHistory, savedRolls, combatants, handleRoll, saveRoll, updateSavedRoll, removeSavedRoll, reorderCombatants, reorderSavedRolls, addCombatant, removeCombatant, updateCombatant, duplicateCombatant, applyDamage } = useDiceContext();
   const { mode, activePanel, setActivePanel, touchHandlers } = useMobileLayout();
 
   const handleRollSubmit = (command) => {
@@ -37,19 +36,28 @@ function AppContent() {
     saveRoll(roll);
   };
 
+  const handleReorderCombatants = (newOrder) => {
+    reorderCombatants(newOrder);
+  };
+
+  const handleReorderSavedRolls = (newOrder) => {
+    reorderSavedRolls(newOrder);
+  };
+
   // Desktop layout (>= 1024px, wide aspect)
   if (mode === 'desktop') {
     return (
       <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-mono overflow-hidden">
-        <main className="flex h-[calc(100vh-20px)] gap-2 relative w-full justify-center">
+        <main className="flex h-[calc(100vh-20px)] gap-2 relative w-full justify-center overflow-hidden">
           {/* Left Sidebar */}
-          <aside className="flex-1 min-w-[320px] max-w-[512px] border-r border-[#cd7f32] border-opacity-50 p-2 overflow-y-auto">
+          <aside className="flex-1 min-w-[320px] max-w-[512px] border-r border-[#cd7f32] border-opacity-50 p-2 overflow-y-auto overflow-hidden">
             <Panel title="Saved Rolls">
               <SavedRollsPanel
                 savedRolls={savedRolls}
                 onRoll={handleRollFromSaved}
                 onUpdate={updateSavedRoll}
                 onDelete={removeSavedRoll}
+                onReorder={handleReorderSavedRolls}
               />
             </Panel>
           </aside>
@@ -66,7 +74,7 @@ function AppContent() {
           </section>
 
           {/* Right Sidebar */}
-          <aside className="flex-1 min-w-[320px] max-w-[512px] border-l border-[#cd7f32] border-opacity-50 p-2 overflow-y-auto">
+          <aside className="flex-1 min-w-[320px] max-w-[512px] border-l border-[#cd7f32] border-opacity-50 p-2 overflow-y-auto overflow-hidden">
             <Panel title="Combatants">
               <CombatantTracker
                 combatants={combatants}
@@ -75,6 +83,7 @@ function AppContent() {
                 onUpdateCombatant={updateCombatant}
                 onDuplicateCombatant={duplicateCombatant}
                 onApplyDamage={applyDamage}
+                onReorder={handleReorderCombatants}
               />
             </Panel>
           </aside>
@@ -106,6 +115,7 @@ function AppContent() {
                     onRoll={handleRollFromSaved}
                     onUpdate={updateSavedRoll}
                     onDelete={removeSavedRoll}
+                    onReorder={handleReorderSavedRolls}
                   />
                 </Panel>
               ) : (
@@ -117,6 +127,7 @@ function AppContent() {
                     onUpdateCombatant={updateCombatant}
                     onDuplicateCombatant={duplicateCombatant}
                     onApplyDamage={applyDamage}
+                    onReorder={handleReorderCombatants}
                   />
                 </Panel>
               )}
@@ -177,6 +188,7 @@ function AppContent() {
                 onRoll={handleRollFromSaved}
                 onUpdate={updateSavedRoll}
                 onDelete={removeSavedRoll}
+                onReorder={handleReorderSavedRolls}
               />
             </Panel>
           )}
@@ -189,6 +201,7 @@ function AppContent() {
                 onUpdateCombatant={updateCombatant}
                 onDuplicateCombatant={duplicateCombatant}
                 onApplyDamage={applyDamage}
+                onReorder={handleReorderCombatants}
               />
             </Panel>
           )}
