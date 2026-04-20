@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 
 const BREAKPOINTS = {
   DESKTOP: 1024,
@@ -8,28 +8,28 @@ const BREAKPOINTS = {
 const NARROW_ASPECT_RATIO = 0.65;
 const SWIPE_THRESHOLD = 50;
 
+function calculateInitialMode() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const aspectRatio = width / height;
+  const isNarrow = aspectRatio < NARROW_ASPECT_RATIO;
+
+  if (width >= BREAKPOINTS.DESKTOP && !isNarrow) {
+    return 'desktop';
+  } else if (width >= BREAKPOINTS.TABLET || !isNarrow) {
+    return 'tablet';
+  } else {
+    return 'mobile';
+  }
+}
+
 export function useMobileLayout() {
-  const [mode, setMode] = useState('desktop');
+  const [mode, setMode] = useState(calculateInitialMode);
   const [activePanel, setActivePanel] = useState('savedRolls');
   const touchStartRef = useRef(null);
   const isSwipeGestureRef = useRef(false);
 
-  const checkMode = useCallback(() => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const aspectRatio = width / height;
-    const isNarrow = aspectRatio < NARROW_ASPECT_RATIO;
-
-    if (width >= BREAKPOINTS.DESKTOP && !isNarrow) {
-      setMode('desktop');
-    } else if (width >= BREAKPOINTS.TABLET || !isNarrow) {
-      setMode('tablet');
-    } else {
-      setMode('mobile');
-    }
-  }, []);
-
-  const mobilePanels = ['savedRolls', 'dice', 'combatants'];
+  const mobilePanels = useMemo(() => ['savedRolls', 'dice', 'combatants'], []);
 
   const handleTouchStart = useCallback((e) => {
     const target = e.target;
@@ -54,10 +54,10 @@ export function useMobileLayout() {
     }
 
     if (touchStartRef.current === null) return;
-    
+
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStartRef.current - touchEnd;
-    
+
     if (Math.abs(diff) > SWIPE_THRESHOLD) {
       if (diff > 0) {
         // Swipe left: next panel
@@ -71,20 +71,23 @@ export function useMobileLayout() {
         setActivePanel(mobilePanels[prevIndex]);
       }
     }
-    
+
     touchStartRef.current = null;
     isSwipeGestureRef.current = false;
-  }, [activePanel]);
+  }, [activePanel, mobilePanels]);
+
+  const handleResize = useCallback(() => {
+    setMode(calculateInitialMode());
+  }, []);
 
   useEffect(() => {
-    checkMode();
-    window.addEventListener('resize', checkMode);
-    window.addEventListener('orientationchange', checkMode);
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
     return () => {
-      window.removeEventListener('resize', checkMode);
-      window.removeEventListener('orientationchange', checkMode);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
     };
-  }, [checkMode]);
+  }, [handleResize]);
 
   return {
     mode,
