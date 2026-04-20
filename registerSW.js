@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/DM-Tool/sw.js', { scope: '/DM-Tool/' })})}
