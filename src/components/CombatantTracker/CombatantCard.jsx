@@ -232,15 +232,9 @@ export const CombatantCard = ({ combatant, onUpdate, onRemove, onDuplicate, onAp
               className="w-8 h-8 rounded border border-[#888] text-[#888] hover:text-[#cd7f32] hover:border-[#cd7f32] hover:bg-[#2a2a2a] transition-all duration-200 font-mono text-xs sm:text-sm flex items-center justify-center"
               title="Duplicate combatant"
             >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                <rect x="4" y="4" width="9" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5"/>
-                <rect x="1" y="1" width="9" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5" mask="url(#duplicateMask)"/>
-                <defs>
-                  <mask id="duplicateMask">
-                    <rect x="0" y="0" width="14" height="14" fill="white"/>
-                    <rect x="4" y="4" width="9" height="9" rx="1" fill="black"/>
-                  </mask>
-                </defs>
+              <svg width="14" height="14" viewBox="0 0 14 14">
+                <rect x="1" y="1" width="9" height="9" rx="1" fill="rgb(10,10,10)" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="4" y="4" width="9" height="9" rx="1" fill="rgb(10,10,10)" stroke="currentColor" stroke-width="1.5"/>
               </svg>
             </button>
             <button
